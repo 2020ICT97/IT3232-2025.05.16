@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import me.neranjana.spring.mysql.models.Department;
 import me.neranjana.spring.mysql.services.DepartmentService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -25,12 +28,14 @@ public class DepartmentController {
         return new ResponseEntity<List<Department>>(service.getDepartments(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")    
+    @GetMapping("/{id}")
     public ResponseEntity<Department> getDepartmentById(@PathVariable("id") String id) {
-        if (service.getDepartmentById(id) == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-
         return new ResponseEntity<Department>(service.getDepartmentById(id), HttpStatus.OK);
     }
+
+    @PostMapping
+    public ResponseEntity<Department> postDepartment(@RequestBody Department department) {
+        return new ResponseEntity<Department>(service.addDepartment(department), HttpStatus.OK);
+    }
+    
 }
