@@ -28,10 +28,24 @@ public class DepartmentService {
         return repo.findById(id).get();
     }
 
+    public List<String> getDepartmentNames() {
+        if(repo.getDeptNames().isEmpty()) {
+            throw new EntityNotFoundException("No departments Found!");
+        }
+
+        return repo.getDeptNames();
+    }
+
+    public List<Department> searchDepartments(String name) {
+        if(repo.searchName(name).isEmpty()) {
+            throw new EntityNotFoundException("No departments Found!");
+        }
+
+        return repo.searchName(name);
+    }
+
     public Department addDepartment(Department department) {
         if(repo.findById(department.getDepId()).isPresent()) {
-            // System.out.println("Department with the same ID exists!");
-
             throw new DuplicateKeyException("Department with the same ID exists!");
         }
 
