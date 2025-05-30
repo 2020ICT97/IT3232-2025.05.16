@@ -2,6 +2,8 @@ package me.neranjana.spring.mysql.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
@@ -14,6 +16,7 @@ public class Employee extends Person {
     private double salary;
     @ManyToOne
     private Department department;
+    @JsonIgnore
     @ManyToMany(mappedBy = "employees")
     private List<Project> projects;
     
