@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import me.neranjana.spring.mysql.models.Department;
+import me.neranjana.spring.mysql.models.ViewDepartment;
 import me.neranjana.spring.mysql.repo.DepartmentRepo;
 
 @Service
@@ -34,6 +35,35 @@ public class DepartmentService {
         }
 
         return repo.getDeptNames();
+    }
+
+    public List<String> getEmployeeCount() {
+        if(repo.getEmployeeCount().isEmpty()) {
+            throw new EntityNotFoundException("No departments Found!");
+        }
+
+        return repo.getEmployeeCount();
+    }
+
+    public int countEmployees(String id) {
+        if(repo.countEmployees(id) == 0) {
+            throw new EntityNotFoundException("No employees Found!");
+        }
+
+        return repo.countEmployees(id);
+    }
+
+    public ViewDepartment getDepartmentView(String id) {
+        if(repo.findById(id) == null) {
+            throw new EntityNotFoundException("Department Not Found!");
+        }
+
+        Department dept = repo.findById(id).get();
+        ViewDepartment viewDepartment = new ViewDepartment(
+                dept.getDepId(),dept.getName(), dept.getEstablished(), dept.getEmployees(), countEmployees(id)
+            );
+
+        return viewDepartment;
     }
 
     public List<Department> searchDepartments(String name) {
